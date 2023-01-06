@@ -1,0 +1,104 @@
+﻿@using MecanicaReisApp.Models.Enums
+@using MecanicaReisApp.Models.Entities
+@model MecanicaReisApp.Models.Entities.Client
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Client</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Person.PersonType" class="control-label">Person Type</label>
+                @Html.DropDownListFor(model => model.Person.PersonType, new SelectList(new List<PersonType>
+                { PersonType.PhysicalPerson  , PersonType.LegalPerson}), "Select a option",
+                new{@class="form-control", @id="PersonType"})
+            </div>
+
+
+            <div id="physicalPerson" style="display:none">
+
+                <h4>Physical Person</h4>
+
+                @*<div class="form-group">
+                    <label asp-for="LegalPerson." class="control-label"></label>
+                    <input asp-for="Person.RegistrationDate" class="form-control" />
+                    <span asp-validation-for="Person.RegistrationDate" class="text-danger"></span>
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="Person.RegistrationDate" class="control-label"></label>
+                    <input asp-for="Person.RegistrationDate" class="form-control" />
+                    <span asp-validation-for="Person.RegistrationDate" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RegistrationDate" class="control-label"></label>
+                    <input asp-for="RegistrationDate" class="form-control" />
+                    <span asp-validation-for="RegistrationDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div id="legalPerson" style="display:none">
+
+                <h4>Legal Person</h4>
+
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RegistrationDate" class="control-label"></label>
+                    <input asp-for="RegistrationDate" class="form-control" />
+                    <span asp-validation-for="RegistrationDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#PersonType").change(function () {
+                var a = $("#PersonType Option:Selected").text();
+
+                if (a == "PhysicalPerson") {
+                    mostra_esconde("physicalPerson", "legalPerson")
+                } else {
+                    mostra_esconde("legalPerson", "physicalPerson")
+                }
+            })
+        })
+
+        function mostra_esconde(idMostra, idEsconde) {
+            document.getElementById(idMostra).style.display = "block";
+            document.getElementById(idEsconde).style.display = "none";
+        }
+
+    </script>
+}
