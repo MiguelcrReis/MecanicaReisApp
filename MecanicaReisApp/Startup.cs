@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MecanicaReisApp.Data;
 
 namespace MecanicaReisApp
 {
@@ -24,6 +26,10 @@ namespace MecanicaReisApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<MecanicaReisContext>(options =>
+                    options.UseMySql(Configuration.GetConnectionString("MecanicaReisContext"), builder =>
+                    builder.MigrationsAssembly("MecanicaReisApp")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
